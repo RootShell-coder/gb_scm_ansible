@@ -1,0 +1,6 @@
+---
+- name: Test mysql
+  hosts: localhost
+  remote_user: root
+  roles:
+    - mysql
