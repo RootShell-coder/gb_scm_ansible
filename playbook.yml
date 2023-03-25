@@ -1,4 +1,11 @@
 ---
+- name: Load variables
+  hosts: all
+  tasks:
+    - name: Load vars
+      ansible.builtin.include_vars:
+        file: '{{ playbook_dir }}/vars/default.yml'
+
 - name: Install datablese
   become: true
   hosts: db

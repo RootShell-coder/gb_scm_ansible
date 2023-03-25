@@ -6,6 +6,27 @@
     remote_src: true
     creates: '{{ sites_path }}/{{ app_name }}'
 
+- name: Role wordpress | remove default page
+  ansible.builtin.file:
+    path: /etc/nginx/sites-enabled/default
+    state: absent
+
+- name: Role wordpress | Add site to sites folder in Nginx
+  ansible.builtin.template:
+    src: wordpress.conf.j2
+    dest: /etc/nginx/sites-available/{{ app_name }}
+    mode: '0644'
+    owner: root
+    group: root
+
+- name: Role wordpress | add wp-config
+  ansible.builtin.template:
+    src: wp-config.php.j2
+    dest: '{{ sites_path }}/{{ app_name }}/wp-config.php'
+    mode: '0644'
+    owner: www-data
+    group: www-data
+
 - name: Role wordpress | Set ownership
   ansible.builtin.file:
     path: '{{ sites_path }}'
@@ -13,21 +34,6 @@
     recurse: true
     owner: www-data
     group: www-data
-
-- name: Role wordpress | Add site to sites folder in Nginx
-  ansible.builtin.template:
-    src: wordpress.conf.j2
-    dest: /etc/nginx/sites-available/{{ app_name }}
-
-- name: Role wordpress | remove default page
-  ansible.builtin.file:
-    state: absent
-    path: /etc/nginx/sites-enabled/default
-
-- name: Role wordpress | add wp-config
-  ansible.builtin.template:
-    src: wp-config.php.j2
-    dest: '{{ sites_path }}/wp-config.php'
 
 - name: Role wordpress | activate site
   ansible.builtin.file:

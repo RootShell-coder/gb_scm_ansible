@@ -32,7 +32,7 @@ _playbook.yml_
 
 _inventory hosts.yml_
 
-```
+```yaml
 ---
 YNDX:
   vars:
@@ -46,7 +46,6 @@ YNDX:
       ansible_host: 158.160.17.110
     php:
       ansible_host: 158.160.17.110
-
 ```
 
 _deploy_
